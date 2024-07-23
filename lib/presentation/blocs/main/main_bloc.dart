@@ -1,9 +1,11 @@
+import 'package:currency_exchanger/data/local/shared_preferences_helper.dart';
 import 'package:currency_exchanger/data/model/currency_model.dart';
 import 'package:currency_exchanger/data/repositories/currency_repository_impl.dart';
 import 'package:currency_exchanger/domain/repositories/currency_repository.dart';
 import 'package:currency_exchanger/utils/language.dart';
 import 'package:currency_exchanger/utils/status.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'main_event.dart';
@@ -21,6 +23,7 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     on<ShowItem>((event, emit) => _onShowItem(event, emit));
     on<CalculateEvent>((event, emit) => _onCalculate(event, emit));
     on<DialogShown>((event, emit) => _onDialogShown(event, emit));
+    on<ChangeColorEvent>((event, emit) => _onChangeColor(event, emit));
   }
 
   void _onHideItem(HideItem event, Emitter<MainState> emit) {
@@ -42,8 +45,9 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   }
 
   void _onChangeLanguage(ChangeLanguage event, Emitter<MainState> emit) {
+    debugPrint('language changed to ${event.language}');
     emit(state.copyWith(language: event.language));
-    //add(LoadCurrencies());
+    _repository.setLanguage(event.language);
   }
 
   void _onLoadCurrencies(LoadCurrencies event, Emitter<MainState> emit) async {
@@ -78,5 +82,10 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   _onDialogShown(DialogShown event, Emitter<MainState> emit) {
     emit(state.copyWith(calculate: false));
+  }
+
+  _onChangeColor(ChangeColorEvent event, Emitter<MainState> emit) {
+    emit(state.copyWith(chosenColorIndex: event.index));
+    _repository.setColorIndex(event.index);
   }
 }

@@ -29,3 +29,9 @@ final class ShowItem extends MainEvent {
 final class CalculateEvent extends MainEvent {}
 
 final class DialogShown extends MainEvent {}
+
+final class ChangeColorEvent extends MainEvent {
+  final int index;
+
+  ChangeColorEvent({required this.index});
+}

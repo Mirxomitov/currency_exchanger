@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../utils/commons.dart';
@@ -48,6 +49,11 @@ class _CalculateDialogState extends State<CalculateDialog> {
           Commons.dialogTopSelectView,
           const SizedBox(height: 12),
           TextField(
+            autofocus: true,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(18),
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+            ],
             keyboardType: TextInputType.number,
             controller: isUzsToCcy ? uzsController : ccyController,
             decoration: InputDecoration(
@@ -94,26 +100,6 @@ class _CalculateDialogState extends State<CalculateDialog> {
       ),
     );
   }
-
-  /* void _uzsConvertListener() {
-    if (uzsController.text.isNotEmpty) {
-      double uzs = double.tryParse(uzsController.text) ?? 1;
-      double ccy = uzs / widget.conversionFactor;
-      ccyController.text = ccy.toStringAsFixed(2);
-    } else {
-      ccyController.clear();
-    }
-  }
-
-  void _ccyConvertListener() {
-    if (ccyController.text.isNotEmpty) {
-      double ccy = double.tryParse(ccyController.text) ?? 1;
-      double uzs = ccy * widget.conversionFactor;
-      uzsController.text = uzs.toStringAsFixed(2);
-    } else {
-      uzsController.clear();
-    }
-  }*/
 
   void _uzsConvertListener() {
     if (uzsController.text.isNotEmpty) {

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/commons.dart';
 import '../../../../utils/language.dart';
+import '../../../blocs/main/main_bloc.dart';
 import 'language_item.dart';
 
 class LanguageDialog extends StatefulWidget {
   final Function(Language language) onClick;
-  Language selectedLanguage;
 
-  LanguageDialog({
+  const LanguageDialog({
     super.key,
     required this.onClick,
-    required this.selectedLanguage,
   });
 
   @override
@@ -21,6 +21,9 @@ class LanguageDialog extends StatefulWidget {
 class _LanguageDialogState extends State<LanguageDialog> {
   @override
   Widget build(BuildContext context) {
+
+    final state = context.watch<MainBloc>().state;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -35,13 +38,10 @@ class _LanguageDialogState extends State<LanguageDialog> {
           const SizedBox(height: 12),
           for (int i = 0; i < Language.values.length; ++i)
             LanguageItem(
-              isSelected: widget.selectedLanguage == Language.values[i],
+              isSelected: state.language == Language.values[i],
               language: Language.values[i].languageText,
               onClick: () {
-                setState(() {
-                  widget.selectedLanguage = Language.values[i];
-                  widget.onClick(widget.selectedLanguage);
-                });
+                widget.onClick(Language.values[i]);
               },
             ),
         ],

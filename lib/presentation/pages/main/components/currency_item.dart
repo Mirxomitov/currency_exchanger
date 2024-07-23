@@ -48,14 +48,19 @@ class CurrencyItem extends StatelessWidget {
                       children: [
                         Text(
                           _getCurrency(context),
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, height: 0),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.bold, height: 0),
                         ),
                         const SizedBox(width: 4),
                         Text(
                           currency.diff.toString(),
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: !(currency.diff ?? '-').startsWith('-') ? Colors.green : Colors.red,
+                                color: !(currency.diff ?? '-').startsWith('-')
+                                    ? Colors.green
+                                    : Colors.red,
                                 height: 0,
                               ),
                         ),
@@ -81,13 +86,16 @@ class CurrencyItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                currency.id == context.read<MainBloc>().state.chosenCurrencyID && context.read<MainBloc>().state.isItemOpened
+                currency.id == context.read<MainBloc>().state.chosenCurrencyID &&
+                        context.read<MainBloc>().state.isItemOpened
                     ? const Icon(Icons.keyboard_arrow_up_rounded)
                     : const Icon(Icons.keyboard_arrow_down_rounded),
               ],
             ),
+            const SizedBox(height: 8),
             Visibility(
-              visible: currency.id == context.read<MainBloc>().state.chosenCurrencyID && context.read<MainBloc>().state.isItemOpened,
+              visible: currency.id == context.read<MainBloc>().state.chosenCurrencyID &&
+                  context.read<MainBloc>().state.isItemOpened,
               child: Row(
                 children: [
                   const Spacer(),
@@ -142,10 +150,10 @@ class CurrencyItem extends StatelessWidget {
 
   String _getCalculateText(BuildContext context) {
     return switch (context.read<MainBloc>().state.language) {
-      Language.uzbekKirill => 'Хисоблаш' ?? '',
-      Language.uzbekLatin => 'Hisoblash' ?? '',
-      Language.english => 'Calculate' ?? '',
-      Language.russian => 'Рассчитать' ?? '',
+      Language.uzbekKirill => 'Хисоблаш',
+      Language.uzbekLatin => 'Hisoblash',
+      Language.english => 'Calculate',
+      Language.russian => 'Рассчитать',
     };
   }
 }
